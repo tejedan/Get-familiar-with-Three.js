@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>lights</title>
+	</head>
+	<body>
+    
+  
+
+  <script type="module">
+    import * as THREE from './js/build/three.module.js'
+    import { OrbitControls } from './js/examples/jsm/controls/OrbitControls.js'
+
+
+    let wireframe = false;
+
+    //first create a "world" or "scene" to hold the data you will render to the screen (where the data is 3D geometry)      
+    const scene = new THREE.Scene();
+
+    //define a camera to look into the 3D world
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+
+    //we are going to place our 3D meshes at the center of the world's coordinate system, 
+    //  so we move the camera so that it can see them 
+    camera.position.z = 5;
+
+    //tell Three.js to render our geometry using the GPU
+    const renderer = new THREE.WebGLRenderer();
+
+    //make the canvas take up the entire browser window
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    //once the renderer and camera are created, 
+    // we can define how the camera can be moved
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    
+    //a 3D object consists of:
+    // some POINTS (called "geometry") that define the object
+    // a MATERIAL that defines how the faces of the geometry are rendered
+    const geometry1 = new THREE.BoxGeometry();
+    const material1 = new THREE.MeshPhongMaterial();
+
+    //you put these together by making a MESH
+    const cube = new THREE.Mesh(geometry1, material1);
+
+    //and you then add the mesh to the scene so that it gets rendered
+    scene.add(cube);
+	
+	const geometry2 = new THREE.BoxGeometry();
+	const material2 = new THREE.MeshPhongMaterial();
+	const cube2 = new THREE.Mesh(geometry2, material2);
+	cube2.position.x = +2
+	scene.add(cube2);
+
+	const geometry3 = new THREE.BoxGeometry();
+	const material3 = new THREE.MeshPhongMaterial();
+	const cube3 = new THREE.Mesh(geometry3, material3);
+	cube3.position.y = -2
+	scene.add(cube3);
+
+	const geometry4 = new THREE.BoxGeometry();
+	const material4 = new THREE.MeshPhongMaterial();
+	const cube4 = new THREE.Mesh(geometry4, material4);
+	cube4.position.y = +2
+	scene.add(cube4);
+	
+	const geometry5 = new THREE.BoxGeometry();
+	const material5 = new THREE.MeshPhongMaterial();
+	const cube5 = new THREE.Mesh(geometry5, material5);
+	cube5.position.x = -2
+	scene.add(cube5);
+	
+	const geometry6 = new THREE.BoxGeometry();
+	const material6 = new THREE.MeshPhongMaterial();
+	const cube6 = new THREE.Mesh(geometry6, material6);
+	cube6.position.y = +2
+	cube6.position.x = +2
+	scene.add(cube6);
+	
+	const geometry7 = new THREE.BoxGeometry();
+	const material7 = new THREE.MeshPhongMaterial();
+	const cube7 = new THREE.Mesh(geometry7, material7);
+	cube7.position.x = +2
+	cube7.position.y = -2
+	scene.add(cube7);
+	
+	const geometry8 = new THREE.BoxGeometry();
+	const material8 = new THREE.MeshPhongMaterial();
+	const cube8 = new THREE.Mesh(geometry8, material8);
+	cube8.position.x = -2
+	cube8.position.y = -2
+	scene.add(cube8);
+	
+	const geometry9 = new THREE.BoxGeometry();
+	const material9 = new THREE.MeshPhongMaterial();
+	const cube9 = new THREE.Mesh(geometry7, material7);
+	cube9.position.x = -2
+	cube9.position.y = +2
+	scene.add(cube9);
+
+
+
+
+    
+    const light1 = new THREE.PointLight( 0xF229BD );
+    light1.position.set( 0, 50, 0 );
+    scene.add( light1 );
+
+    const light2 = new THREE.PointLight( 0xBF60AF );
+    light2.position.set( 50, 0, 0 );
+    scene.add( light2 );
+
+    const light3 = new THREE.PointLight( 0x05A6A6 );
+    light3.position.set( -50, 0, 0 );
+    scene.add( light3 );
+	
+	const light4 = new THREE.PointLight( 0x0CF2DB );
+    light4.position.set( 0, -50, 0 );
+    scene.add( light4 );
+	
+	const light5 = new THREE.PointLight( 0xD9A25F );
+    light5.position.set( 0, 0, 50 );
+    scene.add( light5 );
+	
+
+
+    const white_pointlight = new THREE.PointLight( 0xffffff );
+    white_pointlight.position.set( 0, 0, 0 );
+    //scene.add( white_pointlight );
+
+    const ambientLight = new THREE.AmbientLight( 0x202020 ); // soft white light
+    //scene.add( ambientLight );
+
+
+    let light_dx = 0.1;
+
+    const animate = function () {
+      requestAnimationFrame(animate);
+
+      controls.update();
+
+      rotateObject(cube, 0.02, 0.01);
+      rotateObject(cube2, .02, .01);
+	  rotateObject(cube3, 0.02, 0.01);
+      rotateObject(cube4, .02, .01);
+	  rotateObject(cube5, 0.02, 0.01);
+	  rotateObject(cube6, .02, .01);
+	  rotateObject(cube7, 0.02, 0.01);
+      rotateObject(cube8, .02, .01);
+	  rotateObject(cube9, 0.02, 0.01);
+
+
+      white_pointlight.position.x += light_dx;
+
+      if (white_pointlight.position.x > 10) {
+        light_dx = -0.1;
+      } else if (white_pointlight.position.x < -10) {
+        light_dx = 0.1; 
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    function rotateObject(o, dx, dy) {
+      o.rotation.x += dx;
+      o.rotation.y += dy;
+    }
+
+  </script>
+  </body>
+  
+  </html>
